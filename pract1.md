@@ -3,6 +3,7 @@
 
 # Решение:
 первый вариант: cut -d: -f1 /etc/passwd | sort
+
 второй вариант: cat /etc/passwd | grep -Eo '^[^:]+' | sort
 
 # Результат:
