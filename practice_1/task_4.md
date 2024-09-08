@@ -1,5 +1,5 @@
 # Задача 4
-
+![image](https://github.com/user-attachments/assets/6c341119-5d8d-4eff-a9a9-43b3cde338a1)
 # Решение
 ```py
 filename = input("Enter an absolute file path:\n")
@@ -20,4 +20,4 @@ python3 ./task_4.py
 
 (C) Задача динамической связности в офлайне.cpp
 # Результат
-
+![image](https://github.com/user-attachments/assets/5c8bd403-6a85-400e-b755-aaeadb76c886)
