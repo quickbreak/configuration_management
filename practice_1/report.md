@@ -87,14 +87,13 @@ sudo cp "$file" /usr/local/bin/
 filename = input("Enter a file name:\n")
 f = open(filename, 'r')
 s = f.read()
-if filename[-3:] == '.js' and s[1:3] == '//' or filename[-2:] == '.c' and s[1:3] == "//" or filename[-3:] == '.py' and s[0] == "#":
+if (filename[-3:] == '.js' or filename[-2:] == '.c') and s[1:3] in ['//', '/*'] or filename[-3:] == '.py' and s[0] in ['#', "'"]:
     print(f'{filename} has a leading comment')
 else:
     print(f'{filename} does not have a leading comment')
 ```
 # Результат
-![image](https://github.com/user-attachments/assets/dd0b601a-4219-4267-9d07-bd5a33849204)
-![image](https://github.com/user-attachments/assets/fc546b00-1365-43d8-9717-7e7132f8a412)
+![image](https://github.com/user-attachments/assets/f62c7c69-3455-4ecc-8a9e-258ba1a4bf32)
 
 # Задача 7
 ![image](https://github.com/user-attachments/assets/db669673-0f05-47b7-9258-4f5aba4fbaee)
@@ -102,24 +101,11 @@ else:
 ```bash
 #!/bin/bash
 
-for file in "$@"; do
-  # Проверка на наличие допустимого расширения
-  if [[ "$file" =~ \.(c|js|py)$ ]]; then
-    first_line=$(head -n 1 "$file")
-
-    # Проверка на комментарий в первой строке для разных типов файлов
-    if [[ "$file" =~ \.c$ && "$first_line" == "//"* ]] || \
-       [[ "$file" =~ \.js$ && "$first_line" == "//"* ]] || \
-       [[ "$file" =~ \.py$ && "$first_line" == "#"* ]]; then
-      echo "$file has a comment in the first line."
-    else
-      echo "$file does not have a comment in the first line."
-    fi
-  fi
-done
+find "$1" -type f -exec md5sum {} + | sort | uniq -w32 -dD
 ```
 # Результат
-![image](https://github.com/user-attachments/assets/41139c49-af96-4201-bac2-1da0d467fbb9)
+![image](https://github.com/user-attachments/assets/9330fd4a-f2e7-432f-bb29-04665880339f)
+
 
 # Задача 8
 ![image](https://github.com/user-attachments/assets/d4db55cf-3a52-430a-bae6-d5312c4dd595)
