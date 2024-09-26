@@ -76,7 +76,7 @@ class Cmd:
                 memory += len(line)
             if line_count > 0:
                 memory += 1
-            print(f'        {line_count}       {word_count}       {memory}')
+            return [line_count, word_count, memory]
         else:
             i = len(file_path) - 1  # собираем имя файла
             file_name = ''
@@ -110,11 +110,12 @@ class Cmd:
                             memory += len(line)
                         if line_count > 0:
                             memory += 1
+                        self.cd(old_path)
                         return [line_count, word_count, memory]
                 else:
+                    self.cd(old_path)
                     return 1
                 # ------------------------------------------------------
-                self.cd(old_path)
             else:
                 return 1
 

@@ -84,7 +84,9 @@ with zipfile.ZipFile(zip_path, 'r') as arch:
             if res == 1:
                 print('No such file or directory')
             else:
-                line_count = res[0], word_count = res[1], memory = res[3]
+                line_count = res[0]
+                word_count = res[1]
+                memory = res[2]
                 print(f'        {line_count}       {word_count}       {memory}')
         elif command[0] == 'find':
             res = []
