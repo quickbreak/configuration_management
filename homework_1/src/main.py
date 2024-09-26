@@ -21,7 +21,7 @@ username = config['username']
 hostname = config['hostname']
 zip_path = config['zip_path']
 log_path = config['log_path']
-start_script_path = config['start_script_path']  # зачем?
+start_script_path = config['start_script_path']
 
 with zipfile.ZipFile(zip_path, 'r') as arch:
     manipulator = Cmd(arch)
@@ -29,14 +29,14 @@ with zipfile.ZipFile(zip_path, 'r') as arch:
     records = []
     log_file = open(log_path, "w", encoding="UTF-8")
     tick = 0
-    if args.script is not None:
+    if args.script:
         script_file = open(start_script_path, 'r', encoding="UTF-8")
     while True:
         current_path = (str(manipulator.current_path)
-                        .replace("D:/micha/Учёба -- пары/3 Семестр/configuration_management/homework_1/archive.zip",
+                        .replace(zip_path,
                                  "/")[:-1]
                         .replace("//", "/"))
-        if args.script is None:
+        if not args.script:
             command = input(f'{username}@{hostname}:{current_path}$ ')
         else:
             command = script_file.readline()
@@ -48,33 +48,54 @@ with zipfile.ZipFile(zip_path, 'r') as arch:
         records[tick]["command"] = command
 
         command = command.strip().split()
+        # logging --------------------------------------------
+        records[tick]['date'] = str(datetime.date.today())
+        records[tick]['time'] = str(datetime.datetime.now().time())[:8]
+        tick += 1
+        # ----------------------------------------------------
         if len(command) == 0:
             continue
         if command[0] == 'exit':
             break
         elif command[0] == 'ls':
+            res = []
             if len(command) == 1:
-                manipulator.ls()
+                res = manipulator.ls()
             else:
-                manipulator.ls(command[1])
-        elif command[0] == 'cd':
-            manipulator.cd(command[1])
+                res = manipulator.ls(command[1])
+
+            if res == 1:
+                print("No such file or directory")
+            else:
+                for item in res:
+                    print(item, end=' ')
+                if len(res) > 0:
+                    print()
+        elif command[0] == 'cd' and len(command) == 2:
+            res = manipulator.cd(command[1])
+            if res == 1:
+                print("No such file or directory")
         elif command[0] == 'wc':
             if len(command) == 1:
-                manipulator.wc()
+                res = manipulator.wc()
             else:
-                manipulator.wc(command[1])
+                res = manipulator.wc(command[1])
+
+            if res == 1:
+                print('No such file or directory')
+            else:
+                line_count = res[0], word_count = res[1], memory = res[3]
+                print(f'        {line_count}       {word_count}       {memory}')
         elif command[0] == 'find':
-            if len(command) == 1:
-                manipulator.find()
-            else:
-                manipulator.find(command[1])
+            res = []
+            if len(command) == 2:
+                res = manipulator.find('', command[1])
+            elif len(command) == 3:
+                res = manipulator.find(command[1], command[2])
+            for item in res:
+                print(item)
         else:
             print('unsupported command')
-
-        records[tick]['date'] = str(datetime.date.today())
-        records[tick]['time'] = str(datetime.datetime.now().time())[:8]
-        tick += 1
     json.dump(records, log_file, ensure_ascii=False, indent=2)
 
 '''

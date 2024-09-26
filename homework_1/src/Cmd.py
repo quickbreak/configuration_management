@@ -5,62 +5,62 @@ class Cmd:
     def __init__(self, filesystem_archive):
         self.arch = filesystem_archive
         self.current_path = zipfile.Path(self.arch)
+        self.zip_path = str(self.current_path)[:-1]
 
-    @staticmethod
-    def resolve(current_path, new_path='./') -> str:
-        if new_path == '':
-            return ''
-        if new_path == '.':  # cwd
-            path = './'
-        if new_path[0] == '/':  # уже абсолютный путь
+    def __resolve(self, current_path, new_path='./') -> str:
+        if new_path == '' or new_path == '.' or new_path == './':  # cwd
+            return './'
+        elif new_path[0] == '/':  # уже абсолютный путь
             return new_path[1:]
+        # дан путь относительный,
+        # формируем абсолютный путь без первого '/'
         addition = (str(current_path)
-                    .replace("D:/micha/Учёба -- пары/3 Семестр/configuration_management/homework_1/archive.zip",
+                    .replace(self.zip_path,
                              "/")[:-1]
                     .replace("//", "/"))
-        if addition != '/':
-            addition = addition[1:] + '/'
+        if len(addition) > 0:
+            addition = addition[1:]
+        if len(new_path) > 1 and new_path[:2] == './':
+            new_path = new_path[2:]
+        if addition != '':
+            return addition + '/' + new_path
         else:
-            addition = ''
-        if len(new_path) > 1 and new_path[:2] == './':  # относительный путь
-            return addition + new_path[2:]
-        elif new_path[0] not in './':  # относительный путь
-            return addition + new_path
+            return new_path
+        # elif new_path[0] not in './':
+        #     return addition + new_path
         # elif len(new_path) > 2 and new_path[:3] == '../':
 
     def cd(self, new_path='./'):
-        new_path = self.resolve(self.current_path, new_path)
+        new_path = self.__resolve(self.current_path, new_path)
+        # print(self.arch.namelist())
+        if new_path == './':
+            return 0
         if new_path + '/' in self.arch.namelist() or new_path == '':
             self.current_path = zipfile.Path(self.arch)
             self.current_path = self.current_path.joinpath(new_path)
             return 0
         else:
-            print("No such file or directory")
             return 1
 
-    def ls(self, file_path='./'):
+    def ls(self, file_path=''):
         old_path = (str(self.current_path)
-                    .replace("D:/micha/Учёба -- пары/3 Семестр/configuration_management/homework_1/archive.zip",
+                    .replace(self.zip_path,
                              "/")[:-1]
                     .replace("//", "/"))
-        if old_path != '/':
-            old_path = old_path[1:] + '/'
-        else:
-            old_path = ''
         # ----------------------------------------------------------
         error = self.cd(file_path)
+        res = []
         if error == 0:
-            empty = True
             for i in self.current_path.iterdir():
-                empty = False
                 list_of = str(i)
                 list_of = list_of.split('/')
                 list_of = [x for x in list_of if len(x) > 0]
-                print(list_of[-1], end=" ")
-            if not empty:
-                print()
+                res.append(list_of[-1])
             # ------------------------------------------------------
             self.cd(old_path)
+            return res
+        else:
+            return 1
 
     def wc(self, file_path=''):
         line_count = 0
@@ -74,44 +74,67 @@ class Cmd:
                 line_count += 1
                 word_count += len(line.split())
                 memory += len(line)
-            print(f'        {line_count}       {word_count}       {memory + 1}')
+            if line_count > 0:
+                memory += 1
+            print(f'        {line_count}       {word_count}       {memory}')
         else:
-            i = len(file_path) - 1
+            i = len(file_path) - 1  # собираем имя файла
             file_name = ''
             while i >= 0 and file_path[i] != '/':
                 file_name = file_path[i] + file_name
                 i -= 1
-            file_path = file_path[:i]  # что если i == -1?
+            # собираем директорию
+            # что если i == -1? то есть файл находится в текущей директории, путь до него относительный (path: file.txt)
+            if i == -1:
+                file_path = './'
+            else:
+                file_path = file_path[:i]
             old_path = (str(self.current_path)
-                        .replace("D:/micha/Учёба -- пары/3 Семестр/configuration_management/homework_1/archive.zip",
+                        .replace(self.zip_path,
                                  "/")[:-1]
                         .replace("//", "/"))
-            if old_path != '/':
-                old_path = old_path[1:] + '/'
-            else:
-                old_path = ''
             # ----------------------------------------------------------
             error = self.cd(file_path)
             if error == 0:  # смогли поменять директорию
                 new_path = (str(self.current_path)  # формируем текущее положение
-                            .replace("D:/micha/Учёба -- пары/3 Семестр/configuration_management/homework_1/archive.zip",
+                            .replace(self.zip_path,
                                      "/")[:-1]
                             .replace("//", "/"))
                 if new_path != '/':
                     new_path = new_path[1:] + '/'
-                else:
-                    new_path = ''
                 if new_path + file_name in self.arch.namelist():  # такой файл есть в новой директории
                     with self.arch.open(new_path + file_name) as f:  # считаем
                         for line in f.readlines():
                             line_count += 1
                             word_count += len(line.split())
                             memory += len(line)
-                        print(f'        {line_count}       {word_count}       {memory + 1}')
+                        if line_count > 0:
+                            memory += 1
+                        return[line_count, word_count, memory]
                 else:
-                    print("No such file or directory")
+                    return 1
                 # ------------------------------------------------------
                 self.cd(old_path)
+            else:
+                return 1
 
-    def find(self, dir_path=''):
-        print('unsupported command')
+    def find(self, dir_path='.', prototype=''):
+        old_path = (str(self.current_path)
+                    .replace(self.zip_path,
+                             "/")[:-1]
+                    .replace("//", "/"))
+        # ----------------------------------------------------------
+        error = self.cd(dir_path)
+        res = []
+        if error == 0:  # если перейти просили в директорию, и нам удалось
+            for item in self.current_path.iterdir():
+                item = str(item)
+                if item[-4:] == prototype:
+                    item = (item
+                            .replace(self.zip_path,
+                                     "/")
+                            .replace("//", "/"))
+                    res.append(item)
+            # ------------------------------------------------------
+            self.cd(old_path)
+        return res
