@@ -110,7 +110,7 @@ class Cmd:
                             memory += len(line)
                         if line_count > 0:
                             memory += 1
-                        return[line_count, word_count, memory]
+                        return [line_count, word_count, memory]
                 else:
                     return 1
                 # ------------------------------------------------------

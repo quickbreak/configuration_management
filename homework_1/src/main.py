@@ -9,8 +9,8 @@ from Cmd import Cmd
 parser = argparse.ArgumentParser()
 parser.add_argument("config_path", help="use path to add the configuration",
                     type=str)
-parser.add_argument("--script", help="run commands from the script file",
-                    type=str, default=None)
+parser.add_argument("--script", action='store_true', help="executes commands automatically")
+
 args = parser.parse_args()
 
 # Чтение файла конфигурации
@@ -41,10 +41,10 @@ with zipfile.ZipFile(zip_path, 'r') as arch:
         else:
             command = script_file.readline()
         records.append({"username": username,
-                "date": "",
-                "time": "",
-                "command": ""
-                })
+                        "date": "",
+                        "time": "",
+                        "command": ""
+                        })
         records[tick]["command"] = command
 
         command = command.strip().split()
@@ -97,9 +97,3 @@ with zipfile.ZipFile(zip_path, 'r') as arch:
         else:
             print('unsupported command')
     json.dump(records, log_file, ensure_ascii=False, indent=2)
-
-'''
-добавить --script
-тестирование
-команда find
-'''
