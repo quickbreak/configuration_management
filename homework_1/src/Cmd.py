@@ -130,7 +130,11 @@ class Cmd:
         if error == 0:  # если перейти просили в директорию, и нам удалось
             for item in self.current_path.iterdir():
                 item = str(item)
-                if item[-4:] == prototype:
+                extension = ''
+                i = len(item) - 1
+                while i > 0 and item[i] != '.':
+                    i -= 1
+                if item[i:] == prototype:
                     item = (item
                             .replace(self.zip_path,
                                      "/")
