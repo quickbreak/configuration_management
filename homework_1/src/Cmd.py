@@ -31,6 +31,19 @@ class Cmd:
         # elif len(new_path) > 2 and new_path[:3] == '../':
 
     def cd(self, new_path='./'):
+        if new_path == "..":
+            old_path = (str(self.current_path)
+                        .replace(self.zip_path,
+                                 "/")[:-1]
+                        .replace("//", "/"))
+            i = len(old_path) - 1
+            while i >= 0 and old_path[i] != '/':
+                old_path = old_path[:-1]
+                i -= 1
+            if i > 0:
+                old_path = old_path[:-1]
+            new_path = old_path
+
         new_path = self.__resolve(self.current_path, new_path)
         # print(self.arch.namelist())
         if new_path == './':
