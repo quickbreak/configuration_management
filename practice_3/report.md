@@ -88,28 +88,36 @@ local studentData = [
 let Group = Text
 let Student = { age : Natural, group : Group, name : Text }
 
-let createGroup : Natural -> Group =
-      λ(n : Natural) → "ИКБО-" ++ (Natural/show n) ++ "-20"
+let createGroup : Natural -> Text =
+      λ(n : Natural) → "ИКБО-" ++ Natural/show n ++ "-23"
 
-let groups =
-      List/map
-        Natural
-        Group
-        createGroup
-        (List/replicate 10 (λ(i : Natural) → i + 1))
+let groups : List Text =
+      [ createGroup 1
+      , createGroup 2
+      , createGroup 3
+      , createGroup 4
+      , createGroup 5
+      , createGroup 6
+      , createGroup 7
+      , createGroup 8
+      , createGroup 9
+      , createGroup 10
+      ]
 
 let createStudent : Natural -> Group -> Text -> Student =
-      λ(age : Natural) → λ(group : Group) → λ(name : Text) →
+      λ(age : Natural) →
+      λ(group : Group) →
+      λ(name : Text) →
         { age = age, group = group, name = name }
 
-let students =
-  [ createStudent 19 (createGroup 4) "Иванов И.И."
-  , createStudent 18 (createGroup 5) "Петров П.П."
-  , createStudent 18 (createGroup 5) "Сидоров С.С."
-  , createStudent 120 (createGroup 10) "Лермонтов М.Ю."
+let students : List Student =
+  [ createStudent 20 (createGroup 2) "Жагло И. Д."
+  , createStudent 21 (createGroup 3) "Коротков А. А."
+  , createStudent 22 (createGroup 1) "Запрягаев М. А."
+  , createStudent 20 (createGroup 4) "Красоткин А. А."
   ]
 
-in  { groups = groups, students = students, subject = "Конфигурационное управление" }
+in  { groups = groups, students = students, subject = "Программирование" }
 ```
 # Результат:
 ```
@@ -141,26 +149,10 @@ in  { groups = groups, students = students, subject = "Конфигурацио�
     "ИКБО-24-20"
   ],
   "students": [
-    {
-      "age": 19,
-      "group": "ИКБО-4-20",
-      "name": "Иванов И.И."
-    },
-    {
-      "age": 18,
-      "group": "ИКБО-5-20",
-      "name": "Петров П.П."
-    },
-    {
-      "age": 18,
-      "group": "ИКБО-5-20",
-      "name": "Сидоров С.С."
-    },
-    {
-      "age": 120,
-      "group": "ИКБО-10-20",
-      "name": "Лермонтов М.Ю."
-    }
+    {"age": 19, "group": "ИКБО-4-20", "name": "Иванов И.И."},
+    {"age": 18, "group": "ИКБО-5-20", "name": "Петров П.П."},
+    {"age": 18, "group": "ИКБО-5-20", "name": "Сидоров С.С."},
+    {"age": 120, "group": "ИКБО-10-20", "name": "Лермонтов М.Ю."}
   ],
   "subject": "Конфигурационное управление"
 }
