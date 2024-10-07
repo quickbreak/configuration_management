@@ -55,45 +55,35 @@ output ["digits: \(digits)"];
 ![image](https://github.com/user-attachments/assets/5d054df5-730c-4a3b-84f5-52be5357aa2e)
 # Решение:
 ```
-% Определяем пакеты
-  enum PACKAGES = {
-      root, 
-      menu_1_0_0, menu_1_1_0, menu_1_2_0, menu_1_3_0, menu_1_4_0, menu_1_5_0, 
-      dropdown_2_0_0, dropdown_2_1_0, dropdown_2_2_0, dropdown_2_3_0, dropdown_1_8_0,
-      icons_1_0_0, icons_2_0_0
-  };
-  
-  % Переменные, указывающие, установлен ли пакет (1) или нет (0)
-  array[PACKAGES] of var 0..1: installed;
-  
-  % Обязательно устанавливаем root
-  constraint
-      installed[root] == 1;
-  
-  % Ограничения зависимостей
-  constraint
-      (installed[root] == 1) -> (installed[menu_1_0_0] == 1 /\ installed[menu_1_5_0] == 1 /\ installed[icons_1_0_0] == 1) /\
-      (installed[menu_1_5_0] == 1) -> (installed[dropdown_2_3_0] == 1 /\ installed[dropdown_2_0_0] == 1) /\
-      (installed[menu_1_4_0] == 1) -> (installed[dropdown_2_3_0] == 1 /\ installed[dropdown_2_0_0] == 1) /\
-      (installed[menu_1_3_0] == 1) -> (installed[dropdown_2_3_0] == 1 /\ installed[dropdown_2_0_0] == 1) /\
-      (installed[menu_1_2_0] == 1) -> (installed[dropdown_2_3_0] == 1 /\ installed[dropdown_2_0_0] == 1) /\
-      (installed[menu_1_1_0] == 1) -> (installed[dropdown_2_3_0] == 1 /\ installed[dropdown_2_0_0] == 1) /\
-      (installed[menu_1_0_0] == 1) -> (installed[dropdown_1_8_0] == 1) /\
-      (installed[dropdown_2_0_0] == 1) -> (installed[icons_2_0_0] == 1) /\
-      (installed[dropdown_2_1_0] == 1) -> (installed[icons_2_0_0] == 1) /\
-      (installed[dropdown_2_2_0] == 1) -> (installed[icons_2_0_0] == 1) /\
-      (installed[dropdown_2_3_0] == 1) -> (installed[icons_2_0_0] == 1);
-  
-  % Целевая функция: минимизируем количество установленных пакетов
-  solve minimize sum(installed);
-  
-  % Выводим результат
-  output [
-      "Installed packages: ", show(installed)
-  ];
+int: mCount = 6;
+int: dCount = 5;
+int: iCount = 2;
+var 1..mCount: m;
+var 1..dCount: d;
+var 1..iCount: i;
+
+array[1..mCount] of tuple(int, int, int): mVersions = 
+  [(1,0,0), (1,1,0), (1,2,0), (1,3,0), (1,4,0), (1,5,0)];
+array[1..dCount] of tuple(int, int, int): dVersions = 
+  [(1,8,0), (2,0,0), (2,1,0), (2,2,0), (2,3,0)];
+array[1..iCount] of tuple(int, int, int): iVersions = 
+  [(1,0,0), (2,0,0)];
+
+constraint (mVersions[m] == (1,0,0) \/ mVersions[m] == (1, 5, 0) /\ iVersions[i] == (1, 0, 0));
+constraint (mVersions[m].2 >= 1 /\ mVersions[m].2 <= 5) -> (dVersions[d] == (2, 3, 0) \/ dVersions[d] == (2, 0, 0));
+constraint mVersions[m] == (1, 0, 0) -> dVersions[d] == (1, 8, 0);
+constraint (dVersions[d].2 >= 0 /\ dVersions[d].2 <= 3) -> iVersions[i] == (2, 0, 0);
+
+solve satisfy;
+
+output [
+  "Menu version: ", show(mVersions[m]), "\n",
+  "Dropdown version: ", show(dVersions[d]), "\n",
+  "Icon version: ", show(iVersions[i]), "\n"
+];
 ```
 # Результат:
-![image](https://github.com/user-attachments/assets/84ddad03-ee66-4a99-9c51-d042d9e1f623)
+![image](https://github.com/user-attachments/assets/2000b7f1-cb70-4ab4-942e-7e9d510ecfea)
 # Задача 6
 Решить на MiniZinc задачу о зависимостях пакетов для следующих данных:
 '''
@@ -108,37 +98,78 @@ target 2.0.0 и 1.0.0 не имеют зависимостей.
 '''
 # Решение:
 ```
- % Определяем пакеты
-  enum PACKAGES = {
-      root, 
-      foo_1_0_0, foo_1_1_0, 
-      left_1_0_0, right_1_0_0, 
-      shared_1_0_0, shared_2_0_0, 
-      target_1_0_0, target_2_0_0
-  };
-  
-  % Переменные, указывающие, установлен ли пакет (1) или нет (0)
-  array[PACKAGES] of var 0..1: installed;
-  
-  % Ограничения зависимостей
-  constraint
-      (installed[root] == 1) -> (installed[foo_1_1_0] == 1 /\ installed[target_2_0_0] == 1) /\
-      (installed[foo_1_1_0] == 1) -> (installed[left_1_0_0] == 1 /\ installed[right_1_0_0] == 1) /\
-      (installed[left_1_0_0] == 1) -> (installed[shared_1_0_0] == 1) /\
-      (installed[right_1_0_0] == 1) -> (installed[shared_2_0_0] == 1) /\ (installed[shared_1_0_0] == 0) /\
-      (installed[shared_1_0_0] == 1) -> (installed[target_1_0_0] == 1);
-  
-  % Обязательно устанавливаем root
-  constraint
-      installed[root] == 1;
-  
-  % Целевая функция: минимизируем количество установленных пакетов
-  solve minimize sum(installed);
-  
-  % Выводим результат
-  output [
-      "Installed packages: ", show(installed)
-  ];
+ enum Package = {
+  root_1_0_0,
+
+  foo_1_1_0,
+  foo_1_0_0,
+
+  left_1_0_0,
+  right_1_0_0,
+
+  shared_2_0_0,
+  shared_1_0_0,
+
+  target_2_0_0,
+  target_1_0_0,
+};
+
+int: n = 7;
+
+array[1..n] of set of Package: targets = [
+  % Deps of root 1.0.0
+  1: { foo_1_1_0, foo_1_0_0 },
+  2: { target_2_0_0 },
+
+  % Deps of foo 1.1.0
+  3: { left_1_0_0 },
+  4: { right_1_0_0 },
+
+  % Deps of left 1.0.0
+  5: { shared_1_0_0, shared_2_0_0 },
+
+  % Deps of right 1.0.0
+  6: { shared_1_0_0 },
+
+  % Deps of shared 1.0.0
+  7: { target_1_0_0 },
+];
+
+% set points to targets array
+array[Package] of set of 1..n: dependencies = [
+  root_1_0_0: { 1, 2 },
+  foo_1_1_0: { 3, 4 },
+  left_1_0_0: { 5 },
+  right_1_0_0: { 6 },
+  shared_1_0_0: { 7 },
+
+  foo_1_0_0: { },
+  shared_2_0_0: { },
+
+  target_2_0_0: { },
+  target_1_0_0: { },
+];
+
+array[Package] of var opt (1..100): install_order;
+
+constraint occurs(install_order[root_1_0_0]);
+
+constraint forall(p in Package where occurs(install_order[p])) (
+  forall(dep in dependencies[p]) (
+    exists(t in targets[dep]) (
+      occurs(install_order[t]) /\
+      install_order[t] < install_order[p]
+    )
+  )
+);
+
+output [
+  if fix(occurs(install_order[p]))
+  then "\(p): \(install_order[p])\n"
+  else ""
+  endif | p in Package
+];
 ```
 # Результат:
-![image](https://github.com/user-attachments/assets/33649ed8-8c5a-4978-8fe0-62fb87f9cb38)
+![image](https://github.com/user-attachments/assets/43fed2ba-ba99-48c1-8d17-d046aae23a30)
+
