@@ -1,7 +1,7 @@
 {
   "username": "quickbreak",
   "hostname": "LAPTOP-C40G90QK",
-  "zip_path": "archive.zip",
-  "log_path": "log/log.json",
-  "start_script_path": "script.txt"
+  "zip_path": "./archive.zip",
+  "log_path": "./log/log.json",
+  "start_script_path": "./script.txt"
 }

@@ -1,3 +1,6 @@
 
 *.svg
 *.pyc
+homework-tasks.pdf
+.idea/
+.venv/

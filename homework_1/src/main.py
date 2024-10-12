@@ -57,6 +57,8 @@ with zipfile.ZipFile(zip_path, 'r') as arch:
             continue
         if command[0] == 'exit':
             break
+        elif command[0] == 'pwd':
+            print(current_path)
         elif command[0] == 'ls':
             res = []
             if len(command) == 1:
