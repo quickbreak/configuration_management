@@ -8,7 +8,7 @@
 ```
 git clone https://github.com/quickbreak/configuration_management.git
 ```
-Перейди в нужный каталог:
+Перейти в нужный каталог:
 ```
 cd configuration_management/homework_1
 ```
