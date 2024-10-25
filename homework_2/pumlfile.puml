@@ -1,0 +1,22 @@
+@startuml
+digraph G {
+  rankdir=BT;
+  node [shape=box, style=filled, fillcolor="lightgreen"];
+  edge [color="gray"];
+  "6a4e87ebcc2f004adffa1843bb8594b92ddc1252" [label="6a4e87e\nИзменить файл"];
+  "8c513cb793cc13d83c4a90c66534cd8ff2d8d139" -> "6a4e87ebcc2f004adffa1843bb8594b92ddc1252";
+  "8c513cb793cc13d83c4a90c66534cd8ff2d8d139" [label="8c513cb\nИзменить файл"];
+  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" -> "8c513cb793cc13d83c4a90c66534cd8ff2d8d139";
+  "111a51da1816fcc46a716bb60b2124277d844478" [label="111a51d\nMerge pull request #2 from yandex-praktikum/change-one\nChange one"];
+  "6d9acf3f10b466c214fcb25ab93514e642709ec5" -> "111a51da1816fcc46a716bb60b2124277d844478";
+  "8c513cb793cc13d83c4a90c66534cd8ff2d8d139" -> "111a51da1816fcc46a716bb60b2124277d844478";
+  "6d9acf3f10b466c214fcb25ab93514e642709ec5" [label="6d9acf3\nMerge pull request #1 from yandex-praktikum/new-file\nДобавить новый файл"];
+  "10e4a05dfa192df700f42226b665815a84e5aec8" -> "6d9acf3f10b466c214fcb25ab93514e642709ec5";
+  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" -> "6d9acf3f10b466c214fcb25ab93514e642709ec5";
+  "10e4a05dfa192df700f42226b665815a84e5aec8" [label="10e4a05\nInitial commit"];
+  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" [label="9fce228\nДобавить новый файл"];
+  "10e4a05dfa192df700f42226b665815a84e5aec8" -> "9fce228e73fc2916dedfde0d99ecb614eb3b1faf";
+  "4bdfe7b65584f79251bdeaf5f6e54cb4d23f45f3" [label="4bdfe7b\nИзменить файл 2"];
+  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" -> "4bdfe7b65584f79251bdeaf5f6e54cb4d23f45f3";
+}
+@enduml
