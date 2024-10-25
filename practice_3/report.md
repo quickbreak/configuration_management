@@ -210,3 +210,16 @@ E = | ( E ) | { E }
 ```
 # Результат:
 ![image](https://github.com/user-attachments/assets/7a0a2b09-a7ec-4391-b453-c2fac7229989)
+# Задача 5
+Язык выражений алгебры логики.
+# Решение:  
+```
+BNF = '''
+E = var | ~ E | E op E | ( E )
+var = x | y
+op = & | V
+'''
+```
+# Результат:
+![image](https://github.com/user-attachments/assets/93039ef6-ab23-4535-ab7c-ae4e88ca1bb8)
+
