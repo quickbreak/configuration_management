@@ -1,3 +1,12 @@
+<h1 align="center">
+  Эмулятор языка оболочки UNIX-подобной ОС
+</h1>
+
+## Пример работы программы
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/236a9f75-ed48-4821-b943-c42d7c043a5f">
+</div>
+
 # Инструкция по скачиванию и запуску проекта на вашей машине
 ## 1. Установка Python:
 Скачайте и установите Python с официального сайта, если Python ещё не установлен. Рекомендуемая версия — 3.8 или выше.
@@ -39,8 +48,3 @@ cd src
 ```
 python -m unittest cmd_test.py
 ```
-# Пример работы программы
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/236a9f75-ed48-4821-b943-c42d7c043a5f">
-</div>
