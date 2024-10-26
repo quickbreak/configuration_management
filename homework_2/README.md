@@ -39,11 +39,16 @@ sudo apt install plantuml
 pip install -r requirements.txt
 ```
 ## 5. Запуск проекта
+Сформировать файл для визуализации истории коммитов гит-репозитория:
 ```
-python3 main.py ./config.yaml 
+python3 main.py ./config.yaml
+```
+Отрисовать историю коммитов гит-репозитория:
+```
+plantuml pumlfile.puml
 ```
 ## 6. Запуск тестов
 Запустить тестирование:
 ```
-python -m unittest cmd_test.py
+py.test -v test_package/visualizer_test.py
 ```
