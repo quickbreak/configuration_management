@@ -27,13 +27,9 @@ git tag in
 ![result_image](https://github.com/user-attachments/assets/2bd68362-e487-4ec9-b27b-9fb1bbea2f27)
 ## Задача 2
 ### Условие:
-
-### Решение:
-```
- 
-```
-### Результат
-
+Создать локальный git-репозиторий. Задать свои имя и почту (далее – coder1). Разместить файл prog.py с какими-нибудь данными. Прислать в текстовом виде диалог с git.
+### Решение и результат:
+![image](https://github.com/user-attachments/assets/e8fbb029-93b0-4506-893b-ad527cec7f52)
 ## Задача 3
 ### Условие:
 
