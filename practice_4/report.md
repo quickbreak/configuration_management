@@ -85,9 +85,74 @@ git push origin main
 
 ## Задача 4
 ### Условие:
-
+Написать программу на Питоне (или другом ЯП), которая выводит список содержимого всех объектов репозитория. Воспользоваться командой "git cat-file -p". Идеальное решение – не использовать иных сторонних команд и библиотек для работы с git.
 ### Решение:
 ```
- 
+import os
+import subprocess
+
+def get_type_content(repo_path: str, sha1: str):
+
+    result = subprocess.run(
+        ['git', 'cat-file', '-p', sha1],
+        cwd=repo_path,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
+    content = ""
+    if result.returncode != 0:
+        raise FileNotFoundError(f"Object '{sha1}' not found.")
+    else:
+        content = result.stdout.encode('utf-8').decode('utf-8', errors='replace')
+
+    # Determine the type of the object
+    type_result = subprocess.run(
+        ['git', 'cat-file', '-t', sha1],
+        cwd=repo_path,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
+    obj_type = type_result.stdout.strip()
+
+    return [obj_type, content]
+
+
+
+def get_parents(content):
+    if content == "":
+        return ""
+    lines = content.split('\n')
+    parents = []
+    for line in lines:
+        if line.startswith('parent '):
+            parents.append(line[7:])
+    return (parents)
+
+
+def print_all(repo_path: str):
+    lst = []
+    path = repo_path + '/.git/objects'
+    lst = os.listdir(path)
+    while len(lst) > 0:
+        dr = lst.pop()
+        if dr in {'info', 'pack'}:
+            continue
+
+        file_name = os.listdir(f'{path}/{dr}')[0]
+        sha1 = dr + file_name
+        # print(sha1)
+        res = get_type_content(repo_path, sha1)
+        content = res[0], res[1]
+        print(content)
+        print('-' * 100)
 ```
 ### Результат
+```
+print_all("../../copyserver")
+```
+![image](https://github.com/user-attachments/assets/1225b9f5-312c-4411-972a-2daee3919a78)
+
