@@ -3,10 +3,55 @@
 </h1>
 
 ## Пример работы программы
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/e9d17151-191b-468d-9938-e67f4785d72d">
-</div>
-
+Текст в json-формате:
+```
+{
+  "constant_a": 123,
+  "constant_b": 321,
+  "constant_s1": "hello ",
+  "constant_s2": "world",
+  "expression_add": "?[constant_a constant_b add]",
+  "expression_concatenate": "?[constant_s1 constant_s2 concatenate]",
+  "expression_max": "?[constant_a constant_b max]",
+  "list": [1, 2, 3],
+  "ordinary_line": "I am a line",
+  "some_log_path": "./log/log.json",
+  "dict in dict": {
+    "key1": "value1",
+    "key2": 2,
+    "dict in dict in dict": {
+      "key3": "value3",
+      "constant_52": 34
+    }
+  }
+}
+```
+Текст в выходном формате:
+```
+dict(
+   global @"constant_a" = 123
+   global @"constant_b" = 321
+   global @"constant_s1" = @"hello "
+   global @"constant_s2" = @"world"
+   @"expression_add" = @"?[constant_a constant_b add]"
+   @"expression_concatenate" = @"?[constant_s1 constant_s2 concatenate]"
+   @"expression_max" = @"?[constant_a constant_b max]"
+   @"list" = ({ 1, 2, 3 })
+   @"ordinary_line" = @"I am a line"
+   @"some_log_path" = @"./log/log.json"
+   @"dict in dict" = dict(
+      @"key1" = @"value1"
+      @"key2" = 2
+      @"dict in dict in dict" = dict(
+         @"key3" = @"value3"
+         global @"constant_52" = 34
+      )
+   )
+   @"result for ?[constant_a constant_b add]" = 444
+   @"result for ?[constant_s1 constant_s2 concatenate]" = @"hello world"
+   @"result for ?[constant_a constant_b max]" = 321
+)
+```
 # Инструкция по скачиванию и запуску проекта на вашей машине (Linux)
 Откройте терминал или командную строку и выполните следующие команды...  
 ## 1. Установка Python:
