@@ -26,7 +26,7 @@ def calc_expressions(expressions, constants, space):
                            "\" = " + str(int(operand_1) + int(operand_2))) + '\n'
             elif operation == 'concatenate':
                 result += (space + "@\"result for " + expr_copy +
-                           "\" = \"" + operand_1 + operand_2 + "\"") + '\n'
+                           "\" = @\"" + operand_1 + operand_2 + "\"") + '\n'
             elif operation == 'max':
                 result += (space + "@\"result for " + expr_copy +
                            "\" = " + str(max(int(operand_1), int(operand_2)))) + '\n'
@@ -70,3 +70,4 @@ def translate(from_path, to_path):
     # print(ans)
     with open(to_path, 'w') as output:
         output.write(ans)
+    return ans
