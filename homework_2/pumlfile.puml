@@ -3,20 +3,17 @@ digraph G {
   rankdir=BT;
   node [shape=box, style=filled, fillcolor="lightgreen"];
   edge [color="gray"];
-  "6a4e87ebcc2f004adffa1843bb8594b92ddc1252" [label="6a4e87e\nИзменить файл"];
-  "8c513cb793cc13d83c4a90c66534cd8ff2d8d139" -> "6a4e87ebcc2f004adffa1843bb8594b92ddc1252";
-  "8c513cb793cc13d83c4a90c66534cd8ff2d8d139" [label="8c513cb\nИзменить файл"];
-  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" -> "8c513cb793cc13d83c4a90c66534cd8ff2d8d139";
-  "111a51da1816fcc46a716bb60b2124277d844478" [label="111a51d\nMerge pull request #2 from yandex-praktikum/change-one\nChange one"];
-  "6d9acf3f10b466c214fcb25ab93514e642709ec5" -> "111a51da1816fcc46a716bb60b2124277d844478";
-  "8c513cb793cc13d83c4a90c66534cd8ff2d8d139" -> "111a51da1816fcc46a716bb60b2124277d844478";
-  "6d9acf3f10b466c214fcb25ab93514e642709ec5" [label="6d9acf3\nMerge pull request #1 from yandex-praktikum/new-file\nДобавить новый файл"];
-  "10e4a05dfa192df700f42226b665815a84e5aec8" -> "6d9acf3f10b466c214fcb25ab93514e642709ec5";
-  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" -> "6d9acf3f10b466c214fcb25ab93514e642709ec5";
-  "10e4a05dfa192df700f42226b665815a84e5aec8" [label="10e4a05\nInitial commit"];
-  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" [label="9fce228\nДобавить новый файл"];
-  "10e4a05dfa192df700f42226b665815a84e5aec8" -> "9fce228e73fc2916dedfde0d99ecb614eb3b1faf";
-  "4bdfe7b65584f79251bdeaf5f6e54cb4d23f45f3" [label="4bdfe7b\nИзменить файл 2"];
-  "9fce228e73fc2916dedfde0d99ecb614eb3b1faf" -> "4bdfe7b65584f79251bdeaf5f6e54cb4d23f45f3";
+  "0b6f51224d3378ef51b8af22af8c7820685af80e" [label="0b6f512\nfolder/file3.txt created\n|| folder\n> file.txt\n> file2.txt\n"];
+  "816d16438d7eab36486f47b56176d048a3ea8b52" -> "0b6f51224d3378ef51b8af22af8c7820685af80e";
+  "816d16438d7eab36486f47b56176d048a3ea8b52" [label="816d164\nMerge branch 'first-branch'\n> file.txt\n> file2.txt\n"];
+  "50f054a149aff58bf998f4f6159a8649502c7a62" -> "816d16438d7eab36486f47b56176d048a3ea8b52";
+  "d9fa993f2e80bee5264d3417272093795966a08c" -> "816d16438d7eab36486f47b56176d048a3ea8b52";
+  "50f054a149aff58bf998f4f6159a8649502c7a62" [label="50f054a\nmain second line\n> file.txt\n> file2.txt\n"];
+  "6b7a40f1835d836b574d77f6aaa766e17202fdc1" -> "50f054a149aff58bf998f4f6159a8649502c7a62";
+  "6b7a40f1835d836b574d77f6aaa766e17202fdc1" [label="6b7a40f\nmain first line\n> file.txt\n"];
+  "d9fa993f2e80bee5264d3417272093795966a08c" [label="d9fa993\nfirst-branch second line\n> file.txt\n"];
+  "23d85693805d58d547c1d5092cfb8024d339ba78" -> "d9fa993f2e80bee5264d3417272093795966a08c";
+  "23d85693805d58d547c1d5092cfb8024d339ba78" [label="23d8569\nfirst-branch first line\n> file.txt\n"];
+  "6b7a40f1835d836b574d77f6aaa766e17202fdc1" -> "23d85693805d58d547c1d5092cfb8024d339ba78";
 }
 @enduml

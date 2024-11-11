@@ -1,5 +1,6 @@
 import git_repo_visualizer as visualizer
 import argparse
+import subprocess
 
 
 def main(config_path: str) -> None:
@@ -8,9 +9,11 @@ def main(config_path: str) -> None:
     graph = visualizer.get_commits_after_date(config['repo_path'], config['start_date'])
 
     plantuml_content = visualizer.generate_plantuml(graph)
-    visualizer.write_plantuml_file(plantuml_content, config['output_path'])
+    visualizer.write_plantuml_file(plantuml_content, config['pumlfile_path'])
 
-    print("PlantUML graph file generated successfully.")
+    print("PlantUML graph file generated successfully")
+
+    subprocess.run(['plantuml', config['pumlfile_path']])
 
 
 if __name__ == '__main__':

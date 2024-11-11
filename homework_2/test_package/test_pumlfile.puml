@@ -1,0 +1,12 @@
+@startuml
+digraph G {
+  rankdir=BT;
+  node [shape=box, style=filled, fillcolor="lightgreen"];
+  edge [color="gray"];
+  "04fe0f38dc51783f43b35d3c63c007ee54cd7539" [label="04fe0f3\nnext day commit\n> miha.txt\n"];
+  "c3ec175c66b1dd5ec415e9dcab4c8598fc060103" -> "04fe0f38dc51783f43b35d3c63c007ee54cd7539";
+  "c3ec175c66b1dd5ec415e9dcab4c8598fc060103" [label="c3ec175\nsecond line added\n> miha.txt\n"];
+  "0b2b417bdc0bdca5688bd39406b7b46a1ed62abf" -> "c3ec175c66b1dd5ec415e9dcab4c8598fc060103";
+  "0b2b417bdc0bdca5688bd39406b7b46a1ed62abf" [label="0b2b417\nfirst commit: poetry in miha.txt\n> miha.txt\n"];
+}
+@enduml
